@@ -160,6 +160,17 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.projects {
+    display: grid;
+    gap: clamp(16px, 3vw, 24px);
+}
+
+.projects-grid {
+    display: grid;
+    gap: clamp(16px, 3vw, 24px);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
 .card {
     background: var(--surface-strong);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -201,6 +212,32 @@ h1 {
     margin-bottom: 8px;
 }
 
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.blog {
+    display: grid;
+    gap: 16px;
+}
+
+.blog-grid {
+    display: grid;
+    gap: clamp(16px, 3vw, 24px);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.blog-card {
+    display: grid;
+    gap: 10px;
+}
+
+.blog-meta {
+    font-size: 0.85rem;
+    color: rgba(248, 250, 252, 0.6);
+}
+
 .message {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -240,6 +277,20 @@ h1 {
 .message-form textarea:focus {
     outline: 2px solid rgba(6, 182, 212, 0.45);
     border-color: transparent;
+}
+
+.form-status {
+    min-height: 20px;
+    font-size: 0.95rem;
+    color: rgba(248, 250, 252, 0.75);
+}
+
+.form-status.success {
+    color: #34d399;
+}
+
+.form-status.error {
+    color: #f87171;
 }
 
 .hint {

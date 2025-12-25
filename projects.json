@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Landing Page Neon",
+    "description": "Layout com foco em tipografia e contraste, feito em HTML e CSS.",
+    "tags": ["HTML", "CSS"],
+    "link": "https://github.com/SubtleParadox419/MEU-SITE"
+  },
+  {
+    "title": "Dashboard Minimalista",
+    "description": "Estudo de UI com cards e microinteracoes em JS.",
+    "tags": ["JavaScript", "UI"],
+    "link": ""
+  },
+  {
+    "title": "Bot de Automacao",
+    "description": "Script para automatizar tarefas e organizacao local.",
+    "tags": ["Python", "CLI"],
+    "link": ""
+  }
+]
