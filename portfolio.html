@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio · Victor Dmitry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="2aa990e6-0cf4-4c5e-9832-6a2749777cbb" type="text/javascript" async></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J6CJ15VBDK" data-cookieconsent="statistics"></script>
+    <script data-cookieconsent="statistics">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J6CJ15VBDK');
+    </script>
+</head>
+<body>
+    <div class="bg-shapes" aria-hidden="true"></div>
+    <main class="page">
+        <header class="hero">
+            <div class="avatar-wrap">
+                <img src="2cc8a920-33b6-4202-880c-ca36b53a111b.jpg" alt="Minha foto" class="avatar">
+                <span class="status">online</span>
+            </div>
+            <div class="hero-text">
+                <p class="eyebrow">Portfolio pessoal</p>
+                <h1>Ola, eu sou Victor Dmitry</h1>
+                <p class="lead">Um cantinho pra mostrar quem eu sou, o que eu crio e no que estou trabalhando agora.</p>
+                <div class="actions">
+                    <a class="btn primary" href="#mensagem">Me chama</a>
+                    <a class="btn ghost" href="#projetos">Projetos</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="projetos" class="projects">
+            <article class="card">
+                <h2>Projetos</h2>
+                <p>Alguns trabalhos recentes e ideias em progresso. Mais projetos chegando.</p>
+                <a class="link" href="https://github.com/SubtleParadox419" target="_blank" rel="noreferrer">GitHub</a>
+            </article>
+            <div class="projects-grid" id="projects-list"></div>
+            <article class="card">
+                <h2>Sobre</h2>
+                <p>Curto design, codigo limpo e aprender coisas novas todos os dias.</p>
+                <span class="tag">Windows</span>
+                <span class="tag">Linux VM</span>
+                <span class="tag">Mobile</span>
+            </article>
+        </section>
+
+        <section id="blog" class="card wide blog">
+            <div class="blog-header">
+                <h2>Notas e ideias</h2>
+                <p>Pequenos textos sobre aprendizado, projetos e referencias.</p>
+            </div>
+            <div class="blog-grid" id="blog-list"></div>
+        </section>
+
+        <section id="mensagem" class="card wide message">
+            <div>
+                <h2>Bora trocar ideia?</h2>
+                <p>Se quiser conversar, dar um toque ou mandar oportunidade, escreve aqui embaixo. Eu respondo assim que puder.</p>
+                <p class="hint">Prefere direto? Me chama no GitHub.</p>
+            </div>
+            <form class="message-form" id="message-form" data-endpoint="/api/message">
+                <label>
+                    Seu nome
+                    <input type="text" name="nome" placeholder="Como posso te chamar?" required>
+                </label>
+                <label>
+                    Seu email
+                    <input type="email" name="email" placeholder="voce@exemplo.com" required>
+                </label>
+                <label>
+                    Mensagem
+                    <textarea name="mensagem" rows="4" placeholder="Manda a ideia..." required></textarea>
+                </label>
+                <button class="btn primary" type="submit">Enviar mensagem</button>
+                <div class="form-status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section id="contato" class="card wide">
+            <h2>Contato rapido</h2>
+            <p>Quer falar comigo? Me chama pelo GitHub.</p>
+            <a class="btn primary" href="https://github.com/SubtleParadox419" target="_blank" rel="noreferrer">Abrir GitHub</a>
+        </section>
+
+        <footer class="footer">
+            <span>(c) 2025 Victor Dmitry</span>
+            <div class="footer-links">
+                <a href="index.html">Inicio</a>
+                <a href="privacy.html">Privacidade e Cookies</a>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>

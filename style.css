@@ -66,6 +66,20 @@ img {
     backdrop-filter: blur(16px);
 }
 
+.hero.minimal {
+    grid-template-columns: 1fr;
+    text-align: center;
+}
+
+.landing .hero-text {
+    margin: 0 auto;
+    max-width: 540px;
+}
+
+.landing .actions {
+    justify-content: center;
+}
+
 .avatar-wrap {
     position: relative;
     width: fit-content;
