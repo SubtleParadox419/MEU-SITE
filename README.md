@@ -8,6 +8,7 @@ O repositorio inclui:
 
 - Lint automatico para HTML/CSS/JS via GitHub Actions.
 - CodeQL para JavaScript, Python, Go e Rust (quando adicionados).
+- Auditoria de seguranca para npm, pip, Go e Rust (quando lockfiles existirem).
 - Dependabot para atualizacoes de dependencias e Actions.
 
 ## Padroes de Dependencias (quando adicionar linguagens)

@@ -5,13 +5,54 @@
     <title>Meu Site</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="8fe6d7c4-ad5a-4104-b6a2-cc9da873f49f" data-blockingmode="auto" type="text/javascript"></script>
 </head>
 <body>
-    <main class="container">
-        <img src="2cc8a920-33b6-4202-880c-ca36b53a111b.jpg" alt="Minha foto" class="perfil">
-        <h1>Olá 👋</h1>
-        <p>Esse sou eu! 😄</p>
-        <p>Site criado só pra mostrar minha cara pros amigos.</p>
+    <div class="bg-shapes" aria-hidden="true"></div>
+    <main class="page">
+        <header class="hero">
+            <div class="avatar-wrap">
+                <img src="2cc8a920-33b6-4202-880c-ca36b53a111b.jpg" alt="Minha foto" class="avatar">
+                <span class="status">online</span>
+            </div>
+            <div class="hero-text">
+                <p class="eyebrow">Portfolio pessoal</p>
+                <h1>Ola, eu sou Nando</h1>
+                <p class="lead">Site simples para mostrar quem eu sou e compartilhar meus projetos.</p>
+                <div class="actions">
+                    <a class="btn primary" href="#contato">Contato</a>
+                    <a class="btn ghost" href="#projetos">Projetos</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="projetos" class="grid">
+            <article class="card">
+                <h2>Projetos</h2>
+                <p>Em breve vou listar meus projetos em HTML, CSS, JS, Rust, Python e Go.</p>
+                <a class="link" href="https://github.com/SubtleParadox419" target="_blank" rel="noreferrer">GitHub</a>
+            </article>
+            <article class="card">
+                <h2>Sobre</h2>
+                <p>Curto design, codigo limpo e aprender coisas novas todos os dias.</p>
+                <span class="tag">Windows</span>
+                <span class="tag">Linux VM</span>
+                <span class="tag">Mobile</span>
+            </article>
+        </section>
+
+        <section id="contato" class="card wide">
+            <h2>Contato</h2>
+            <p>Quer falar comigo? Me chama pelo GitHub.</p>
+            <a class="btn primary" href="https://github.com/SubtleParadox419" target="_blank" rel="noreferrer">Abrir GitHub</a>
+        </section>
+
+        <footer class="footer">
+            <span>© 2025 Nando</span>
+            <div class="footer-links">
+                <a href="privacy.html">Privacidade e Cookies</a>
+            </div>
+        </footer>
     </main>
 </body>
 </html>
