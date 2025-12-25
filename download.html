@@ -16,18 +16,68 @@
 </head>
 <body>
     <div class="bg-shapes" aria-hidden="true"></div>
-    <main class="page">
-        <header class="hero minimal">
-            <div class="hero-text">
+    <main class="page download">
+        <header class="download-topbar">
+            <div class="brand">
+                <span class="brand-badge">AS</span>
+                <span>AegisSwitch</span>
+            </div>
+            <nav class="download-nav">
+                <a href="index.html">Inicio</a>
+                <a href="portfolio.html">Portfolio</a>
+                <a class="active" href="download.html">Download</a>
+                <a href="privacy.html">Privacidade</a>
+            </nav>
+        </header>
+
+        <section class="download-hero">
+            <div class="download-card">
                 <p class="eyebrow">Download</p>
-                <h1>AegisSwitch</h1>
+                <h1>AegisSwitch 1.0.1</h1>
                 <p class="lead">Central de seguranca para Windows com instalador, atalhos e recursos de privacidade.</p>
-                <div class="actions">
-                    <a class="btn primary" href="https://github.com/SubtleParadox419/AegisSwitch/releases/download/v1.0.1/AegisSwitch.msi">Baixar instalador (MSI)</a>
-                    <a class="btn ghost" href="https://github.com/SubtleParadox419/AegisSwitch/releases/download/v1.0.1/AegisSwitch-win-x64.zip">Baixar ZIP</a>
+                <a class="download-button" href="https://github.com/SubtleParadox419/AegisSwitch/releases/download/v1.0.1/AegisSwitch.msi">
+                    Download MSI
+                    <span>Windows 11 · x64</span>
+                </a>
+                <a class="download-alt" href="https://github.com/SubtleParadox419/AegisSwitch/releases/download/v1.0.1/AegisSwitch-win-x64.zip">Baixar ZIP portable</a>
+                <div class="download-links">
+                    <a href="https://github.com/SubtleParadox419/AegisSwitch/releases/tag/v1.0.1" target="_blank" rel="noreferrer">Notas da release</a>
+                    <a href="https://github.com/SubtleParadox419/AegisSwitch" target="_blank" rel="noreferrer">Codigo-fonte</a>
                 </div>
             </div>
-        </header>
+
+            <div class="preview-card">
+                <div class="preview-header">
+                    <span>Interface</span>
+                    <span class="pill">Seguranca</span>
+                </div>
+                <div class="preview-window">
+                    <div class="preview-bar">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-row"></div>
+                        <div class="preview-row"></div>
+                        <div class="preview-grid">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="release-card">
+                <h3>Ultimas novidades</h3>
+                <ul class="release-list">
+                    <li><strong>v1.0.1</strong> atalhos no MSI, logs e contas.</li>
+                    <li><strong>v1.0.0</strong> primeira versao publica.</li>
+                </ul>
+                <a class="link" href="https://github.com/SubtleParadox419/AegisSwitch/releases" target="_blank" rel="noreferrer">Ver historico completo</a>
+            </aside>
+        </section>
 
         <section class="grid">
             <article class="card">
@@ -39,9 +89,8 @@
                 <p>Sem telemetria. Tudo roda localmente.</p>
             </article>
             <article class="card">
-                <h2>Release</h2>
-                <p>Notas completas no GitHub.</p>
-                <a class="link" href="https://github.com/SubtleParadox419/AegisSwitch/releases/tag/v1.0.1" target="_blank" rel="noreferrer">Ver release</a>
+                <h2>Verificacao</h2>
+                <p>Prefere validar? Baixe o ZIP e cheque o hash local.</p>
             </article>
         </section>
 
@@ -55,9 +104,21 @@
         </section>
 
         <section class="card wide">
-            <h2>Codigo-fonte</h2>
-            <p>Repositorio oficial do app.</p>
-            <a class="btn primary" href="https://github.com/SubtleParadox419/AegisSwitch" target="_blank" rel="noreferrer">Abrir no GitHub</a>
+            <h2>Ajuda rapida</h2>
+            <div class="download-help">
+                <div>
+                    <h3>Problemas ao abrir?</h3>
+                    <p>Verifique o Historico de protecao do Windows Security.</p>
+                </div>
+                <div>
+                    <h3>Quer portable?</h3>
+                    <p>Use o ZIP e execute o EXE diretamente.</p>
+                </div>
+                <div>
+                    <h3>Logs</h3>
+                    <p>Exportacoes ficam em Documentos\\AegisSwitch\\Logs.</p>
+                </div>
+            </div>
         </section>
 
         <footer class="footer">
