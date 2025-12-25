@@ -23,3 +23,6 @@ jobs:
           VALIDATE_HTML: true
           VALIDATE_CSS: true
           VALIDATE_JAVASCRIPT_ES: true
+          LINTER_RULES_PATH: .
+          HTML_CONFIG_FILE: .htmlhintrc
+          CSS_CONFIG_FILE: .stylelintrc.json

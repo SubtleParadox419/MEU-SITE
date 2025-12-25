@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "length-zero-no-unit": true,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "ignore": ["first-nested"]
+      }
+    ],
+    "media-feature-range-notation": "prefix"
+  }
+}
