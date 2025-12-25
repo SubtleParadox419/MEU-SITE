@@ -1,12 +1,7 @@
-(() => {
-    const form = document.getElementById("message-form");
-    if (!form) {
-        return;
-    }
-
+const postForm = (form, buildPayload, successMessage) => {
     const status = form.querySelector(".form-status");
     const button = form.querySelector("button[type='submit']");
-    const endpoint = form.dataset.endpoint || "/api/message";
+    const endpoint = form.dataset.endpoint;
 
     const setStatus = (message, type) => {
         if (!status) {
@@ -23,27 +18,23 @@
         event.preventDefault();
         setStatus("");
 
-        const data = {
-            nome: form.nome.value.trim(),
-            email: form.email.value.trim(),
-            mensagem: form.mensagem.value.trim()
-        };
-
-        if (!data.nome || !data.email || !data.mensagem) {
-            setStatus("Preenche tudo, por favor.", "error");
+        const payload = buildPayload();
+        if (!payload) {
             return;
         }
 
         try {
-            button.disabled = true;
-            button.textContent = "Enviando...";
+            if (button) {
+                button.disabled = true;
+                button.textContent = "Enviando...";
+            }
 
             const response = await fetch(endpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
@@ -51,14 +42,71 @@
             }
 
             form.reset();
-            setStatus("Mensagem enviada! Valeu por chegar junto.", "success");
+            setStatus(successMessage, "success");
         } catch (error) {
             setStatus("Nao foi possivel enviar agora. Tenta de novo depois.", "error");
         } finally {
-            button.disabled = false;
-            button.textContent = "Enviar mensagem";
+            if (button) {
+                button.disabled = false;
+                button.textContent = "Enviar mensagem";
+            }
         }
     });
+};
+
+(() => {
+    const form = document.getElementById("message-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                nome: form.nome.value.trim(),
+                email: form.email.value.trim(),
+                mensagem: form.mensagem.value.trim()
+            };
+            if (!data.nome || !data.email || !data.mensagem) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Preenche tudo, por favor.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Mensagem enviada! Valeu por chegar junto."
+    );
+})();
+
+(() => {
+    const form = document.getElementById("newsletter-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                nome: form.nome.value.trim(),
+                email: form.email.value.trim()
+            };
+            if (!data.email) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Coloca um email valido.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Fechado! Email cadastrado."
+    );
 })();
 
 (() => {
@@ -157,4 +205,67 @@
         .catch(() => {
             list.innerHTML = "<article class=\"card\"><p>Noticias chegando em breve.</p></article>";
         });
+})();
+
+(() => {
+    const list = document.getElementById("forum-list");
+    if (!list) {
+        return;
+    }
+
+    fetch("/api/forum/topics")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Falha ao carregar topicos.");
+            }
+            return response.json();
+        })
+        .then((topics) => {
+            if (!Array.isArray(topics) || topics.length === 0) {
+                list.innerHTML = "<article class=\"card\"><p>Nenhum topico ainda.</p></article>";
+                return;
+            }
+            list.innerHTML = "";
+            topics.forEach((topic) => {
+                const card = document.createElement("article");
+                card.className = "card blog-card";
+                card.innerHTML = `
+                    <h3>${topic.title}</h3>
+                    <p class="blog-meta">${topic.created_at} · ${topic.author}</p>
+                    <p>${topic.message}</p>
+                `;
+                list.appendChild(card);
+            });
+        })
+        .catch(() => {
+            list.innerHTML = "<article class=\"card\"><p>Topicos em breve.</p></article>";
+        });
+})();
+
+(() => {
+    const form = document.getElementById("forum-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                title: form.titulo.value.trim(),
+                author: form.autor.value.trim(),
+                message: form.mensagem.value.trim()
+            };
+            if (!data.title || !data.author || !data.message) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Preenche tudo, por favor.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Topico criado! Valeu por compartilhar."
+    );
 })();

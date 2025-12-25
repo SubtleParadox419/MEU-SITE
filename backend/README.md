@@ -1,6 +1,6 @@
 # Backend (Python)
 
-Backend simples para receber mensagens do formulario e enviar por email (SMTP) ou salvar localmente.
+Backend simples para receber mensagens do formulario, newsletter e forum, com fallback em JSONL.
 
 ## Rodar local
 
@@ -22,3 +22,12 @@ Defina variaveis de ambiente para enviar email real:
 - `CONTACT_EMAIL` (destino)
 
 Se nao configurar SMTP, as mensagens vao para `backend/messages.jsonl`.
+
+## Endpoints
+
+- `POST /api/message`: mensagem do formulario.
+- `POST /api/newsletter`: cadastro de newsletter (email).
+- `GET /api/forum/topics`: lista de topicos.
+- `POST /api/forum/topics`: cria topico.
+- `POST /api/metrics`: registra evento simples.
+- `GET /api/rss`: RSS gerado a partir de `news.json` e `blog.json`.

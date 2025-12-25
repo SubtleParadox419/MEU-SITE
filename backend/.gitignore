@@ -1,3 +1,6 @@
 messages.jsonl
+newsletter.jsonl
+forum_topics.jsonl
+metrics.jsonl
 .env
 .venv

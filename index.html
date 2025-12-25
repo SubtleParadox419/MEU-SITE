@@ -102,6 +102,18 @@
                 </label>
                 <a class="btn primary" href="https://victordmitry.substack.com/" target="_blank" rel="noreferrer">Assinar newsletter</a>
             </div>
+            <form class="message-form" id="newsletter-form" data-endpoint="/api/newsletter">
+                <label>
+                    Seu nome
+                    <input type="text" name="nome" placeholder="Como posso te chamar?">
+                </label>
+                <label>
+                    Seu email
+                    <input type="email" name="email" placeholder="voce@exemplo.com" required>
+                </label>
+                <button class="btn ghost" type="submit">Assinar por email</button>
+                <div class="form-status" aria-live="polite"></div>
+            </form>
         </section>
 
         <footer class="footer">

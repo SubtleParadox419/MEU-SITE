@@ -355,6 +355,10 @@ h1 {
     margin-bottom: 4px;
 }
 
+.message-form input[readonly] {
+    opacity: 0.75;
+}
+
 @keyframes float {
     0%,
     100% {
