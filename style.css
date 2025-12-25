@@ -336,6 +336,13 @@ h1 {
     gap: 12px;
 }
 
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .secure-list {
     list-style: none;
     padding-left: 0;
