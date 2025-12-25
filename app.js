@@ -126,3 +126,35 @@
             list.innerHTML = "<article class=\"card\"><p>Posts chegando em breve.</p></article>";
         });
 })();
+
+(() => {
+    const list = document.getElementById("news-list");
+    if (!list) {
+        return;
+    }
+
+    fetch("news.json")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Falha ao carregar noticias.");
+            }
+            return response.json();
+        })
+        .then((items) => {
+            list.innerHTML = "";
+            items.forEach((item) => {
+                const card = document.createElement("article");
+                card.className = "card blog-card";
+                card.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p class="blog-meta">${item.date} · ${item.category}</p>
+                    <p>${item.summary}</p>
+                    ${item.link ? `<a class="link" href="${item.link}" target="_blank" rel="noreferrer">Ler mais</a>` : ""}
+                `;
+                list.appendChild(card);
+            });
+        })
+        .catch(() => {
+            list.innerHTML = "<article class=\"card\"><p>Noticias chegando em breve.</p></article>";
+        });
+})();

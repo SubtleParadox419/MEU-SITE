@@ -1,0 +1,23 @@
+[
+  {
+    "title": "IA aplicada a seguranca defensiva",
+    "date": "25/12/2025",
+    "category": "IA",
+    "summary": "Modelos de IA ajudam a detectar anomalias e reduzir falsos positivos em logs.",
+    "link": ""
+  },
+  {
+    "title": "Boas praticas de hardening para devs",
+    "date": "24/12/2025",
+    "category": "Seguranca",
+    "summary": "Checklist simples de permissoes, segredos e dependencias para projetos pequenos.",
+    "link": ""
+  },
+  {
+    "title": "Engenharia de software: entregas menores, impacto maior",
+    "date": "23/12/2025",
+    "category": "Software Engineering",
+    "summary": "Iteracoes curtas e revisao constante ajudam a manter qualidade e velocidade.",
+    "link": ""
+  }
+]

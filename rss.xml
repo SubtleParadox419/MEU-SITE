@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Noticias · Victor Dmitry</title>
+    <link>https://subtleparadox419.github.io/MEU-SITE/news.html</link>
+    <description>Atualizacoes sobre IA, seguranca e software engineering.</description>
+    <language>pt-br</language>
+    <item>
+      <title>IA aplicada a seguranca defensiva</title>
+      <link>https://subtleparadox419.github.io/MEU-SITE/news.html</link>
+      <pubDate>Wed, 25 Dec 2025 00:00:00 GMT</pubDate>
+      <description>Modelos de IA ajudam a detectar anomalias e reduzir falsos positivos em logs.</description>
+    </item>
+    <item>
+      <title>Boas praticas de hardening para devs</title>
+      <link>https://subtleparadox419.github.io/MEU-SITE/news.html</link>
+      <pubDate>Tue, 24 Dec 2025 00:00:00 GMT</pubDate>
+      <description>Checklist simples de permissoes, segredos e dependencias para projetos pequenos.</description>
+    </item>
+    <item>
+      <title>Engenharia de software: entregas menores, impacto maior</title>
+      <link>https://subtleparadox419.github.io/MEU-SITE/news.html</link>
+      <pubDate>Mon, 23 Dec 2025 00:00:00 GMT</pubDate>
+      <description>Iteracoes curtas e revisao constante ajudam a manter qualidade e velocidade.</description>
+    </item>
+  </channel>
+</rss>

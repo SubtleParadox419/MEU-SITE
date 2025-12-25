@@ -5,6 +5,7 @@
     <title>Victor Dmitry</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="2aa990e6-0cf4-4c5e-9832-6a2749777cbb" type="text/javascript" async></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J6CJ15VBDK" data-cookieconsent="statistics"></script>
     <script data-cookieconsent="statistics">
@@ -19,12 +20,12 @@
     <main class="page landing">
         <header class="hero minimal">
             <div class="hero-text">
-                <p class="eyebrow">Landing page</p>
-                <h1>Victor Dmitry</h1>
-                <p class="lead">Criativo, curioso e focado em interfaces limpas e funcionais.</p>
+                <p class="eyebrow">Victor Dmitry</p>
+                <h1>Construo interfaces limpas, seguras e prontas para crescer.</h1>
+                <p class="lead">Portfolio, artigos e projetos com foco em tecnologia, seguranca e design simples.</p>
                 <div class="actions">
                     <a class="btn primary" href="portfolio.html">Ver portfolio</a>
-                    <a class="btn ghost" href="#lista">O que vem ai</a>
+                    <a class="btn ghost" href="#news">Noticias</a>
                 </div>
             </div>
         </header>
@@ -45,16 +46,53 @@
             </article>
             <article class="card">
                 <h2>Contato</h2>
-                <p>Quer trocar ideia? Me chama no GitHub.</p>
-                <a class="link" href="https://github.com/SubtleParadox419" target="_blank" rel="noreferrer">Abrir GitHub</a>
+                <p>Formas seguras de falar comigo.</p>
+                <a class="link" href="mailto:serrksdmi000@proton.me">serrksdmi000@proton.me</a>
+                <a class="link" href="mailto:contato@seudominio.com">contato@seudominio.com</a>
+                <ul class="secure-list">
+                    <li>Signal: @victor (definir)</li>
+                    <li>Matrix: @victor:matrix.org (definir)</li>
+                    <li>PGP: chave publica em breve</li>
+                </ul>
             </article>
+        </section>
+
+        <section id="news" class="card wide blog">
+            <div class="blog-header">
+                <h2>Noticias em destaque</h2>
+                <p>IA, seguranca e software engineering. Atualizado com RSS.</p>
+            </div>
+            <div class="blog-grid" id="news-list"></div>
+            <div class="actions">
+                <a class="btn ghost" href="news.html">Ver todas as noticias</a>
+                <a class="btn ghost" href="rss.xml">RSS</a>
+            </div>
+        </section>
+
+        <section id="newsletter" class="card wide message">
+            <div>
+                <h2>Newsletter direta</h2>
+                <p>Assina para receber novidades, posts e projetos novos.</p>
+                <p class="hint">Sem spam. Envio so quando tiver algo util.</p>
+            </div>
+            <form class="message-form" action="mailto:contato@seudominio.com" method="post" enctype="text/plain">
+                <label>
+                    Seu email
+                    <input type="email" name="email" placeholder="voce@exemplo.com" required>
+                </label>
+                <button class="btn primary" type="submit">Quero receber</button>
+            </form>
         </section>
 
         <footer class="footer">
             <span>(c) 2025 Victor Dmitry</span>
             <div class="footer-links">
                 <a href="portfolio.html">Portfolio</a>
-                <a href="download.html">Download</a>
+                <a href="news.html">Noticias</a>
+                <a href="blog.html">Blog</a>
+                <a href="forum.html">Forum</a>
+                <a href="rss.xml">RSS</a>
+                <a href="https://ko-fi.com/victordmitry" target="_blank" rel="noreferrer">Ko-fi</a>
                 <a href="privacy.html">Privacidade e Cookies</a>
             </div>
         </footer>
