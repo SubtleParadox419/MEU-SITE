@@ -2,5 +2,6 @@ messages.jsonl
 newsletter.jsonl
 forum_topics.jsonl
 metrics.jsonl
+dev.db
 .env
 .venv

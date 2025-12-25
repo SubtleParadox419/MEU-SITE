@@ -37,7 +37,7 @@
         <section class="card wide message">
             <div>
                 <h2>Criar novo topico</h2>
-                <p>Esse formulario e basico e ainda nao grava dados.</p>
+                <p>Poste um topico com seu nome e uma mensagem.</p>
             </div>
             <form class="message-form" id="forum-form" data-endpoint="/api/forum/topics">
                 <label>
@@ -53,6 +53,64 @@
                     <textarea name="mensagem" rows="4" placeholder="Escreva sua ideia..." required></textarea>
                 </label>
                 <button class="btn primary" type="submit">Criar topico</button>
+                <div class="form-status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section class="card wide message">
+            <div>
+                <h2>Comentario rapido</h2>
+                <p>Comente em um topico usando o ID exibido na lista.</p>
+            </div>
+            <form class="message-form" id="comment-form" data-endpoint="/api/forum/comments">
+                <label>
+                    ID do topico
+                    <input type="number" name="topic_id" placeholder="Ex.: 1" required>
+                </label>
+                <label>
+                    Seu nome
+                    <input type="text" name="author" placeholder="Como posso te chamar?" required>
+                </label>
+                <label>
+                    Comentario
+                    <textarea name="message" rows="3" placeholder="Escreva algo..." required></textarea>
+                </label>
+                <button class="btn primary" type="submit">Enviar comentario</button>
+                <div class="form-status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section class="card wide message">
+            <div>
+                <h2>Login (teste)</h2>
+                <p>Login simples apenas para testes locais com SQLite.</p>
+            </div>
+            <form class="message-form" id="login-form" data-endpoint="/api/auth/login">
+                <label>
+                    Usuario
+                    <input type="text" name="username" required>
+                </label>
+                <label>
+                    Senha
+                    <input type="password" name="password" required>
+                </label>
+                <button class="btn ghost" type="submit">Entrar</button>
+                <div class="form-status" aria-live="polite"></div>
+            </form>
+            <form class="message-form" id="register-form" data-endpoint="/api/auth/register">
+                <label>
+                    Usuario
+                    <input type="text" name="username" required>
+                </label>
+                <label>
+                    Email
+                    <input type="email" name="email" required>
+                </label>
+                <label>
+                    Senha
+                    <input type="password" name="password" required>
+                </label>
+                <button class="btn ghost" type="submit">Criar conta</button>
                 <div class="form-status" aria-live="polite"></div>
             </form>
         </section>

@@ -143,69 +143,6 @@ const postForm = (form, buildPayload, successMessage) => {
         });
 })();
 
-(() => {
-    const list = document.getElementById("blog-list");
-    if (!list) {
-        return;
-    }
-
-    fetch("blog.json")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Falha ao carregar posts.");
-            }
-            return response.json();
-        })
-        .then((posts) => {
-            list.innerHTML = "";
-            posts.forEach((post) => {
-                const card = document.createElement("article");
-                card.className = "card blog-card";
-                card.innerHTML = `
-                    <h3>${post.title}</h3>
-                    <p class="blog-meta">${post.date} · ${post.read_time}</p>
-                    <p>${post.excerpt}</p>
-                    ${post.link ? `<a class="link" href="${post.link}" target="_blank" rel="noreferrer">Ler mais</a>` : ""}
-                `;
-                list.appendChild(card);
-            });
-        })
-        .catch(() => {
-            list.innerHTML = "<article class=\"card\"><p>Posts chegando em breve.</p></article>";
-        });
-})();
-
-(() => {
-    const list = document.getElementById("news-list");
-    if (!list) {
-        return;
-    }
-
-    fetch("news.json")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Falha ao carregar noticias.");
-            }
-            return response.json();
-        })
-        .then((items) => {
-            list.innerHTML = "";
-            items.forEach((item) => {
-                const card = document.createElement("article");
-                card.className = "card blog-card";
-                card.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <p class="blog-meta">${item.date} · ${item.category}</p>
-                    <p>${item.summary}</p>
-                    ${item.link ? `<a class="link" href="${item.link}" target="_blank" rel="noreferrer">Ler mais</a>` : ""}
-                `;
-                list.appendChild(card);
-            });
-        })
-        .catch(() => {
-            list.innerHTML = "<article class=\"card\"><p>Noticias chegando em breve.</p></article>";
-        });
-})();
 
 (() => {
     const list = document.getElementById("forum-list");
@@ -231,7 +168,7 @@ const postForm = (form, buildPayload, successMessage) => {
                 card.className = "card blog-card";
                 card.innerHTML = `
                     <h3>${topic.title}</h3>
-                    <p class="blog-meta">${topic.created_at} · ${topic.author}</p>
+                    <p class="blog-meta">ID ${topic.id || "-"} · ${topic.created_at} · ${topic.author}</p>
                     <p>${topic.message}</p>
                 `;
                 list.appendChild(card);
@@ -267,5 +204,88 @@ const postForm = (form, buildPayload, successMessage) => {
             return data;
         },
         "Topico criado! Valeu por compartilhar."
+    );
+})();
+
+(() => {
+    const form = document.getElementById("comment-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                topic_id: form.topic_id.value.trim(),
+                author: form.author.value.trim(),
+                message: form.message.value.trim()
+            };
+            if (!data.topic_id || !data.author || !data.message) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Preenche tudo, por favor.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Comentario enviado! Valeu."
+    );
+})();
+
+(() => {
+    const form = document.getElementById("login-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                username: form.username.value.trim(),
+                password: form.password.value.trim()
+            };
+            if (!data.username || !data.password) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Preenche tudo, por favor.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Login ok (teste)."
+    );
+})();
+
+(() => {
+    const form = document.getElementById("register-form");
+    if (!form) {
+        return;
+    }
+
+    postForm(
+        form,
+        () => {
+            const data = {
+                username: form.username.value.trim(),
+                email: form.email.value.trim(),
+                password: form.password.value.trim()
+            };
+            if (!data.username || !data.email || !data.password) {
+                const status = form.querySelector(".form-status");
+                if (status) {
+                    status.textContent = "Preenche tudo, por favor.";
+                    status.classList.add("error");
+                }
+                return null;
+            }
+            return data;
+        },
+        "Conta criada (teste)."
     );
 })();

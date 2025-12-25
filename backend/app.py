@@ -2,6 +2,7 @@ import json
 import os
 import re
 import smtplib
+import sqlite3
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from pathlib import Path
@@ -19,6 +20,8 @@ FORUM_PATH = Path(__file__).resolve().parent / "forum_topics.jsonl"
 METRICS_PATH = Path(__file__).resolve().parent / "metrics.jsonl"
 NEWS_PATH = BASE_DIR / "news.json"
 BLOG_PATH = BASE_DIR / "blog.json"
+DB_PATH = Path(__file__).resolve().parent / "dev.db"
+USE_SQLITE = os.getenv("USE_SQLITE", "").lower() in {"1", "true", "yes"}
 
 
 def _corsify(response):
@@ -52,6 +55,54 @@ def _load_jsonl(path, limit=50):
     lines = path.read_text(encoding="utf-8").strip().splitlines()
     items = [json.loads(line) for line in lines[-limit:]]
     return list(reversed(items))
+
+
+def _db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def _init_db():
+    if not USE_SQLITE:
+        return
+    conn = _db()
+    conn.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS newsletter (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS forum_topics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            author TEXT NOT NULL,
+            message TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS forum_comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            topic_id INTEGER NOT NULL,
+            author TEXT NOT NULL,
+            message TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL,
+            password TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        );
+        """
+    )
+    conn.commit()
+    conn.close()
+
+
+_init_db()
 
 
 @app.route("/api/message", methods=["POST", "OPTIONS"])
@@ -120,7 +171,16 @@ def newsletter():
         "created_at": datetime.now(timezone.utc).isoformat()
     }
 
-    _append_jsonl(NEWSLETTER_PATH, payload)
+    if USE_SQLITE:
+        conn = _db()
+        conn.execute(
+            "INSERT INTO newsletter (name, email, created_at) VALUES (?, ?, ?)",
+            (name, email, payload["created_at"])
+        )
+        conn.commit()
+        conn.close()
+    else:
+        _append_jsonl(NEWSLETTER_PATH, payload)
     return jsonify({"ok": True})
 
 
@@ -130,6 +190,13 @@ def forum_topics():
         return _corsify(app.response_class(status=204))
 
     if request.method == "GET":
+        if USE_SQLITE:
+            conn = _db()
+            rows = conn.execute(
+                "SELECT id, title, author, message, created_at FROM forum_topics ORDER BY id DESC LIMIT 50"
+            ).fetchall()
+            conn.close()
+            return jsonify([dict(row) for row in rows])
         return jsonify(_load_jsonl(FORUM_PATH))
 
     data = request.get_json(silent=True) or {}
@@ -147,7 +214,117 @@ def forum_topics():
         "created_at": datetime.now(timezone.utc).strftime("%d/%m/%Y")
     }
 
-    _append_jsonl(FORUM_PATH, payload)
+    if USE_SQLITE:
+        conn = _db()
+        conn.execute(
+            "INSERT INTO forum_topics (title, author, message, created_at) VALUES (?, ?, ?, ?)",
+            (title, author, message_text, payload["created_at"])
+        )
+        conn.commit()
+        conn.close()
+    else:
+        _append_jsonl(FORUM_PATH, payload)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/forum/comments", methods=["GET", "POST", "OPTIONS"])
+def forum_comments():
+    if request.method == "OPTIONS":
+        return _corsify(app.response_class(status=204))
+
+    if request.method == "GET":
+        topic_id = request.args.get("topic_id", "").strip()
+        if USE_SQLITE and topic_id.isdigit():
+            conn = _db()
+            rows = conn.execute(
+                "SELECT id, topic_id, author, message, created_at FROM forum_comments WHERE topic_id = ? ORDER BY id DESC",
+                (int(topic_id),)
+            ).fetchall()
+            conn.close()
+            return jsonify([dict(row) for row in rows])
+        return jsonify([])
+
+    data = request.get_json(silent=True) or {}
+    topic_id = str(data.get("topic_id", "")).strip()
+    author = str(data.get("author", "")).strip()
+    message_text = str(data.get("message", "")).strip()
+
+    if not topic_id.isdigit() or not author or not message_text:
+        return jsonify({"error": "Campos obrigatorios."}), 400
+
+    payload = {
+        "topic_id": int(topic_id),
+        "author": author,
+        "message": message_text,
+        "created_at": datetime.now(timezone.utc).strftime("%d/%m/%Y")
+    }
+
+    if USE_SQLITE:
+        conn = _db()
+        conn.execute(
+            "INSERT INTO forum_comments (topic_id, author, message, created_at) VALUES (?, ?, ?, ?)",
+            (payload["topic_id"], author, message_text, payload["created_at"])
+        )
+        conn.commit()
+        conn.close()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/auth/register", methods=["POST", "OPTIONS"])
+def register():
+    if request.method == "OPTIONS":
+        return _corsify(app.response_class(status=204))
+
+    data = request.get_json(silent=True) or {}
+    username = str(data.get("username", "")).strip()
+    email = str(data.get("email", "")).strip()
+    password = str(data.get("password", "")).strip()
+
+    if not USE_SQLITE:
+        return jsonify({"error": "Cadastro desativado."}), 400
+
+    if not username or not email or not password:
+        return jsonify({"error": "Campos obrigatorios."}), 400
+
+    conn = _db()
+    try:
+        conn.execute(
+            "INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)",
+            (username, email, password, datetime.now(timezone.utc).isoformat())
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.close()
+        return jsonify({"error": "Usuario ja existe."}), 400
+    conn.close()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/auth/login", methods=["POST", "OPTIONS"])
+def login():
+    if request.method == "OPTIONS":
+        return _corsify(app.response_class(status=204))
+
+    if not USE_SQLITE:
+        return jsonify({"error": "Login desativado."}), 400
+
+    data = request.get_json(silent=True) or {}
+    username = str(data.get("username", "")).strip()
+    password = str(data.get("password", "")).strip()
+
+    if not username or not password:
+        return jsonify({"error": "Campos obrigatorios."}), 400
+
+    conn = _db()
+    row = conn.execute(
+        "SELECT id FROM users WHERE username = ? AND password = ?",
+        (username, password)
+    ).fetchone()
+    conn.close()
+
+    if not row:
+        return jsonify({"error": "Credenciais invalidas."}), 401
+
     return jsonify({"ok": True})
 
 
@@ -174,10 +351,7 @@ def metrics():
 
 @app.route("/api/rss", methods=["GET"])
 def rss():
-    news_items = _load_json(NEWS_PATH)
-    blog_items = _load_json(BLOG_PATH)
-    items = news_items + blog_items
-
+    items = []
     entries = []
     for item in items:
         title = item.get("title", "Atualizacao")

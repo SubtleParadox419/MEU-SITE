@@ -1,6 +1,6 @@
 # Backend (Python)
 
-Backend simples para receber mensagens do formulario, newsletter e forum, com fallback em JSONL.
+Backend simples para receber mensagens do formulario, newsletter e forum, com fallback em JSONL. Opcionalmente usa SQLite local para testes.
 
 ## Rodar local
 
@@ -8,6 +8,13 @@ Backend simples para receber mensagens do formulario, newsletter e forum, com fa
 python -m venv .venv
 .\\.venv\\Scripts\\Activate.ps1
 pip install -r requirements.txt
+python app.py
+```
+
+Para testar com SQLite (nao recomendado em prod):
+
+```powershell
+$env:USE_SQLITE = "1"
 python app.py
 ```
 
@@ -31,3 +38,5 @@ Se nao configurar SMTP, as mensagens vao para `backend/messages.jsonl`.
 - `POST /api/forum/topics`: cria topico.
 - `POST /api/metrics`: registra evento simples.
 - `GET /api/rss`: RSS gerado a partir de `news.json` e `blog.json`.
+- `POST /api/auth/register`: cadastro simples (somente em SQLite).
+- `POST /api/auth/login`: login simples (somente em SQLite).
