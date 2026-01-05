@@ -8,18 +8,19 @@ from email.message import EmailMessage
 from pathlib import Path
 
 from flask import Flask, jsonify, request, Response
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
 
 EMAIL_PATTERN = re.compile(r"^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 BASE_DIR = Path(__file__).resolve().parent.parent
-STORAGE_PATH = Path(__file__).resolve().parent / "messages.jsonl"
-NEWSLETTER_PATH = Path(__file__).resolve().parent / "newsletter.jsonl"
-FORUM_PATH = Path(__file__).resolve().parent / "forum_topics.jsonl"
-METRICS_PATH = Path(__file__).resolve().parent / "metrics.jsonl"
-NEWS_PATH = BASE_DIR / "news.json"
-BLOG_PATH = BASE_DIR / "blog.json"
+# Data directory defaults to /tmp to avoid writing to read-only repo mounts in cloud hosts
+DATA_DIR = Path(os.getenv("DATA_DIR", "/tmp/meu-site"))
+STORAGE_PATH = DATA_DIR / "messages.jsonl"
+NEWSLETTER_PATH = DATA_DIR / "newsletter.jsonl"
+METRICS_PATH = DATA_DIR / "metrics.jsonl"
+RSS_PATH = BASE_DIR / "rss.xml"
 DB_PATH = Path(__file__).resolve().parent / "dev.db"
 USE_SQLITE = os.getenv("USE_SQLITE", "").lower() in {"1", "true", "yes"}
 
@@ -27,7 +28,7 @@ USE_SQLITE = os.getenv("USE_SQLITE", "").lower() in {"1", "true", "yes"}
 def _corsify(response):
     response.headers["Access-Control-Allow-Origin"] = os.getenv("ALLOWED_ORIGIN", "*")
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
-    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     return response
 
 
@@ -42,20 +43,10 @@ def _append_jsonl(path, payload):
         handle.write(json.dumps(payload, ensure_ascii=True) + "\n")
 
 
-def _load_json(path):
-    if not path.exists():
-        return []
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
-
-
-def _load_jsonl(path, limit=50):
-    if not path.exists():
-        return []
-    lines = path.read_text(encoding="utf-8").strip().splitlines()
-    items = [json.loads(line) for line in lines[-limit:]]
-    return list(reversed(items))
-
+def _load_rss_from_file():
+    if not RSS_PATH.exists():
+        return None
+    return RSS_PATH.read_text(encoding="utf-8")
 
 def _db():
     conn = sqlite3.connect(DB_PATH)
@@ -75,20 +66,6 @@ def _init_db():
             email TEXT NOT NULL,
             created_at TEXT NOT NULL
         );
-        CREATE TABLE IF NOT EXISTS forum_topics (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            author TEXT NOT NULL,
-            message TEXT NOT NULL,
-            created_at TEXT NOT NULL
-        );
-        CREATE TABLE IF NOT EXISTS forum_comments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            topic_id INTEGER NOT NULL,
-            author TEXT NOT NULL,
-            message TEXT NOT NULL,
-            created_at TEXT NOT NULL
-        );
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
@@ -103,6 +80,20 @@ def _init_db():
 
 
 _init_db()
+
+
+@app.route("/api/health", methods=["GET", "OPTIONS"])
+def health():
+    if request.method == "OPTIONS":
+        return _corsify(app.response_class(status=204))
+
+    return jsonify(
+        {
+            "status": "ok",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "storage": str(DATA_DIR),
+        }
+    )
 
 
 @app.route("/api/message", methods=["POST", "OPTIONS"])
@@ -184,92 +175,6 @@ def newsletter():
     return jsonify({"ok": True})
 
 
-@app.route("/api/forum/topics", methods=["GET", "POST", "OPTIONS"])
-def forum_topics():
-    if request.method == "OPTIONS":
-        return _corsify(app.response_class(status=204))
-
-    if request.method == "GET":
-        if USE_SQLITE:
-            conn = _db()
-            rows = conn.execute(
-                "SELECT id, title, author, message, created_at FROM forum_topics ORDER BY id DESC LIMIT 50"
-            ).fetchall()
-            conn.close()
-            return jsonify([dict(row) for row in rows])
-        return jsonify(_load_jsonl(FORUM_PATH))
-
-    data = request.get_json(silent=True) or {}
-    title = str(data.get("title", "")).strip()
-    author = str(data.get("author", "")).strip()
-    message_text = str(data.get("message", "")).strip()
-
-    if not title or not author or not message_text:
-        return jsonify({"error": "Campos obrigatorios."}), 400
-
-    payload = {
-        "title": title,
-        "author": author,
-        "message": message_text,
-        "created_at": datetime.now(timezone.utc).strftime("%d/%m/%Y")
-    }
-
-    if USE_SQLITE:
-        conn = _db()
-        conn.execute(
-            "INSERT INTO forum_topics (title, author, message, created_at) VALUES (?, ?, ?, ?)",
-            (title, author, message_text, payload["created_at"])
-        )
-        conn.commit()
-        conn.close()
-    else:
-        _append_jsonl(FORUM_PATH, payload)
-    return jsonify({"ok": True})
-
-
-@app.route("/api/forum/comments", methods=["GET", "POST", "OPTIONS"])
-def forum_comments():
-    if request.method == "OPTIONS":
-        return _corsify(app.response_class(status=204))
-
-    if request.method == "GET":
-        topic_id = request.args.get("topic_id", "").strip()
-        if USE_SQLITE and topic_id.isdigit():
-            conn = _db()
-            rows = conn.execute(
-                "SELECT id, topic_id, author, message, created_at FROM forum_comments WHERE topic_id = ? ORDER BY id DESC",
-                (int(topic_id),)
-            ).fetchall()
-            conn.close()
-            return jsonify([dict(row) for row in rows])
-        return jsonify([])
-
-    data = request.get_json(silent=True) or {}
-    topic_id = str(data.get("topic_id", "")).strip()
-    author = str(data.get("author", "")).strip()
-    message_text = str(data.get("message", "")).strip()
-
-    if not topic_id.isdigit() or not author or not message_text:
-        return jsonify({"error": "Campos obrigatorios."}), 400
-
-    payload = {
-        "topic_id": int(topic_id),
-        "author": author,
-        "message": message_text,
-        "created_at": datetime.now(timezone.utc).strftime("%d/%m/%Y")
-    }
-
-    if USE_SQLITE:
-        conn = _db()
-        conn.execute(
-            "INSERT INTO forum_comments (topic_id, author, message, created_at) VALUES (?, ?, ?, ?)",
-            (payload["topic_id"], author, message_text, payload["created_at"])
-        )
-        conn.commit()
-        conn.close()
-    return jsonify({"ok": True})
-
-
 @app.route("/api/auth/register", methods=["POST", "OPTIONS"])
 def register():
     if request.method == "OPTIONS":
@@ -290,7 +195,12 @@ def register():
     try:
         conn.execute(
             "INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)",
-            (username, email, password, datetime.now(timezone.utc).isoformat())
+            (
+                username,
+                email,
+                generate_password_hash(password, method="pbkdf2:sha256"),
+                datetime.now(timezone.utc).isoformat(),
+            ),
         )
         conn.commit()
     except sqlite3.IntegrityError:
@@ -317,12 +227,12 @@ def login():
 
     conn = _db()
     row = conn.execute(
-        "SELECT id FROM users WHERE username = ? AND password = ?",
-        (username, password)
+        "SELECT id, password FROM users WHERE username = ?",
+        (username,)
     ).fetchone()
     conn.close()
 
-    if not row:
+    if not row or not check_password_hash(row["password"], password):
         return jsonify({"error": "Credenciais invalidas."}), 401
 
     return jsonify({"ok": True})
@@ -351,18 +261,22 @@ def metrics():
 
 @app.route("/api/rss", methods=["GET"])
 def rss():
-    items = []
-    entries = []
-    for item in items:
-        title = item.get("title", "Atualizacao")
-        desc = item.get("summary") or item.get("excerpt", "")
-        date = item.get("date", "01/01/2025")
-        entries.append(
-            f\"\"\"\n    <item>\n      <title>{title}</title>\n      <link>https://victordmitry.xyz/news.html</link>\n      <pubDate>{date}</pubDate>\n      <description>{desc}</description>\n    </item>\"\"\"\n        )
+    file_content = _load_rss_from_file()
+    if file_content:
+        return Response(file_content, mimetype="application/rss+xml")
 
-    content = \"\"\"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\">\n  <channel>\n    <title>Noticias · Victor Dmitry</title>\n    <link>https://victordmitry.xyz/news.html</link>\n    <description>Atualizacoes sobre IA, seguranca e software engineering.</description>\n    <language>pt-br</language>\n{entries}\n  </channel>\n</rss>\n\"\"\".format(entries=\"\".join(entries))
-
-    return Response(content, mimetype="application/rss+xml")
+    minimal = (
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\n"
+        "<rss version=\"2.0\">\\n"
+        "  <channel>\\n"
+        "    <title>Noticias · Victor Dmitry</title>\\n"
+        "    <link>https://victordmitry.xyz</link>\\n"
+        "    <description>RSS temporario enquanto nenhuma fonte foi configurada.</description>\\n"
+        "    <language>pt-br</language>\\n"
+        "  </channel>\\n"
+        "</rss>\\n"
+    )
+    return Response(minimal, mimetype="application/rss+xml")
 
 
 if __name__ == "__main__":

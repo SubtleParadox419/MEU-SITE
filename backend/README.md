@@ -1,6 +1,6 @@
 # Backend (Python)
 
-Backend simples para receber mensagens do formulario, newsletter e forum, com fallback em JSONL. Opcionalmente usa SQLite local para testes.
+Backend simples para receber mensagens do formulario e newsletter, com fallback em JSONL. Opcionalmente usa SQLite local para testes.
 
 ## Rodar local
 
@@ -34,9 +34,7 @@ Se nao configurar SMTP, as mensagens vao para `backend/messages.jsonl`.
 
 - `POST /api/message`: mensagem do formulario.
 - `POST /api/newsletter`: cadastro de newsletter (email).
-- `GET /api/forum/topics`: lista de topicos.
-- `POST /api/forum/topics`: cria topico.
 - `POST /api/metrics`: registra evento simples.
-- `GET /api/rss`: RSS gerado a partir de `news.json` e `blog.json`.
+- `GET /api/rss`: RSS (usa rss.xml se presente, senao responde vazio).
 - `POST /api/auth/register`: cadastro simples (somente em SQLite).
 - `POST /api/auth/login`: login simples (somente em SQLite).
