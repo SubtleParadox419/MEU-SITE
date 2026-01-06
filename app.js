@@ -1,3 +1,5 @@
+const FORMS_ENABLED = false;
+
 const postForm = (form, buildPayload, successMessage) => {
     const status = form.querySelector(".form-status");
     const button = form.querySelector("button[type='submit']");
@@ -17,6 +19,11 @@ const postForm = (form, buildPayload, successMessage) => {
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
         setStatus("");
+
+        if (!FORMS_ENABLED) {
+            setStatus("Formularios desativados no momento.", "error");
+            return;
+        }
 
         const payload = buildPayload();
         if (!payload) {
@@ -142,4 +149,3 @@ const postForm = (form, buildPayload, successMessage) => {
             list.innerHTML = "<article class=\"card\"><p>Projetos em breve.</p></article>";
         });
 })();
-
