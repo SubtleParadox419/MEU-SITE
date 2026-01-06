@@ -4,7 +4,7 @@
   "description": "Projeto simples com HTML/CSS e CI no GitHub Actions.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:css": "stylelint \"**/*.css\""
   },
   "repository": {
     "type": "git",
