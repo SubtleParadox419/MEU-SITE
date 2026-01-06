@@ -1,14 +1,13 @@
 {
+  "extends": "stylelint-config-standard",
   "rules": {
-    "color-function-notation": "legacy",
-    "alpha-value-notation": "number",
-    "length-zero-no-unit": true,
-    "rule-empty-line-before": [
-      "always-multi-line",
-      {
-        "ignore": ["first-nested"]
-      }
-    ],
-    "media-feature-range-notation": "prefix"
+    "color-hex-length": null,
+    "selector-class-pattern": null,
+    "no-descending-specificity": null,
+    "color-function-alias-notation": null,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "media-feature-range-notation": null,
+    "rule-empty-line-before": null
   }
 }

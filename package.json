@@ -1,0 +1,24 @@
+{
+  "name": "meu-site",
+  "version": "1.0.0",
+  "description": "Projeto simples com HTML/CSS e CI no GitHub Actions.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SubtleParadox419/MEU-SITE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SubtleParadox419/MEU-SITE/issues"
+  },
+  "homepage": "https://github.com/SubtleParadox419/MEU-SITE#readme",
+  "devDependencies": {
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1"
+  }
+}
