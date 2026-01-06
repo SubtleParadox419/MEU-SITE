@@ -23,6 +23,7 @@ METRICS_PATH = DATA_DIR / "metrics.jsonl"
 RSS_PATH = BASE_DIR / "rss.xml"
 DB_PATH = Path(__file__).resolve().parent / "dev.db"
 USE_SQLITE = os.getenv("USE_SQLITE", "").lower() in {"1", "true", "yes"}
+HEALTH_TOKEN = os.getenv("HEALTH_TOKEN", "").strip()
 
 
 def _corsify(response):
@@ -86,6 +87,11 @@ _init_db()
 def health():
     if request.method == "OPTIONS":
         return _corsify(app.response_class(status=204))
+
+    if HEALTH_TOKEN:
+        provided = request.headers.get("X-Health-Token") or request.args.get("token", "")
+        if provided != HEALTH_TOKEN:
+            return jsonify({"error": "unauthorized"}), 401
 
     return jsonify(
         {

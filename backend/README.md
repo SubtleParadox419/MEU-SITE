@@ -38,3 +38,4 @@ Se nao configurar SMTP, as mensagens vao para `backend/messages.jsonl`.
 - `GET /api/rss`: RSS (usa rss.xml se presente, senao responde vazio).
 - `POST /api/auth/register`: cadastro simples (somente em SQLite).
 - `POST /api/auth/login`: login simples (somente em SQLite).
+- `GET /api/health`: liveness; se `HEALTH_TOKEN` estiver definido, exige cabecalho `X-Health-Token` ou query `token`.
