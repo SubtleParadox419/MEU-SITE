@@ -5,6 +5,10 @@
       "dest": "/api/index.py"
     },
     {
+      "src": "/forum-demo/(.*)",
+      "dest": "/forum-demo/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {

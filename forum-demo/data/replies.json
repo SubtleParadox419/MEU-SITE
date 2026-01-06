@@ -1,0 +1,32 @@
+[
+  {
+    "topicId": 1,
+    "author": "João P.",
+    "date": "2024-04-16T08:10:00Z",
+    "message": "Adorei a comparação com pacotes! Meu bairro acabou de trocar para fibra e a diferença no ping é absurda."
+  },
+  {
+    "topicId": 1,
+    "author": "Camila R.",
+    "date": "2024-04-16T12:40:00Z",
+    "message": "Curiosidade: provedores usam equipamentos chamados OLT/ONU para gerenciar a rede de fibra até cada casa."
+  },
+  {
+    "topicId": 2,
+    "author": "Eduardo K.",
+    "date": "2024-05-03T17:05:00Z",
+    "message": "Testei com Python -m http.server e funcionou, só lembre de abrir pelo localhost senão o fetch falha."
+  },
+  {
+    "topicId": 2,
+    "author": "Rafaela L.",
+    "date": "2024-05-04T10:22:00Z",
+    "message": "Dica: organize CSS em seções curtas; fica mais fácil manter quando o projeto crescer."
+  },
+  {
+    "topicId": 3,
+    "author": "Pedro H.",
+    "date": "2024-03-29T11:35:00Z",
+    "message": "Gostei dos exemplos, deu para entender loops como voltar na lista de compras quando esquece algo."
+  }
+]

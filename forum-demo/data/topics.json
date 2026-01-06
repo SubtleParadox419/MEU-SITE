@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Como a internet realmente chega na sua casa?",
+    "author": "Lia Souza",
+    "date": "2024-04-15T10:00:00Z",
+    "tags": ["rede", "infra", "iniciante"],
+    "summary": "Entenda o caminho dos cabos, roteadores e provedores até o Wi‑Fi do seu quarto.",
+    "content": "Já reparou que um vídeo no celular carrega em segundos, mas para isso muita coisa acontece antes? Neste tópico explicamos de forma simples: backbones ligam cidades e países, provedores locais conectam seu bairro e o modem traduz o sinal para o roteador. Falamos também sobre fibra vs. cobre, como o sinal vira pacotes e por que seu Wi‑Fi pode ficar lento em horários de pico."
+  },
+  {
+    "id": 2,
+    "title": "Primeiro site estático: HTML, CSS e um pouco de JS",
+    "author": "Bruno Martins",
+    "date": "2024-05-02T14:30:00Z",
+    "tags": ["web", "front-end", "iniciante"],
+    "summary": "Guia rápido para publicar uma página simples sem frameworks.",
+    "content": "Comece criando um arquivo index.html com a estrutura básica, depois um styles.css para cores e espaçamento. Use o console do navegador para testar pequenas funções JS. Mostramos como organizar pastas (assets, data) e como rodar um servidor local para testar fetch de arquivos. Tudo pensado para quem está no ensino médio e quer algo rápido."
+  },
+  {
+    "id": 3,
+    "title": "Lógica de programação usando exemplos do cotidiano",
+    "author": "Nayara Lima",
+    "date": "2024-03-28T09:15:00Z",
+    "tags": ["logica", "algoritmos", "iniciante"],
+    "summary": "If/else com semáforos, laços com lista de compras e funções como receitas.",
+    "content": "Para aprender lógica, pense em decisões que já toma. Semáforo é if/else: verde segue, vermelho para. Lista de compras é um laço for percorrendo itens. Funções são como receitas: entradas (ingredientes), processo (passo a passo) e saída (prato pronto). No fim mostramos como transformar essas ideias em pseudocódigo e depois em uma linguagem real."
+  }
+]

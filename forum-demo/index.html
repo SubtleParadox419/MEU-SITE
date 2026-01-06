@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Fórum</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Mini fórum · estático</p>
+      <h1>Espaço de dúvidas e descobertas</h1>
+      <p class="lede">Três tópicos para quem está no ensino médio e quer entender melhor tecnologia.</p>
+    </div>
+    <div class="actions">
+      <input id="search" type="search" placeholder="Buscar por título, resumo ou conteúdo">
+      <div class="tag-filter" id="tag-filter"></div>
+    </div>
+  </header>
+
+  <main id="topics" class="topics-list" aria-live="polite"></main>
+
+  <template id="topic-card-template">
+    <article class="topic-card">
+      <header>
+        <div class="meta">
+          <span class="pill date"></span>
+          <span class="pill author"></span>
+        </div>
+        <h2 class="title"></h2>
+        <p class="summary"></p>
+      </header>
+      <div class="tag-list"></div>
+      <a class="open-topic" href="#">Ler tópico</a>
+    </article>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

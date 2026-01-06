@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tópico</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Mini fórum · estático</p>
+      <h1 id="topic-title">Carregando...</h1>
+      <p class="lede" id="topic-summary"></p>
+      <div class="meta">
+        <span class="pill date" id="topic-date"></span>
+        <span class="pill author" id="topic-author"></span>
+      </div>
+      <div class="tag-list" id="topic-tags"></div>
+    </div>
+    <a class="open-topic" href="index.html">← Voltar para a lista</a>
+  </header>
+
+  <main class="topic-detail">
+    <article id="topic-content"></article>
+
+    <section class="replies">
+      <h2>Respostas pré-carregadas</h2>
+      <div id="replies-container"></div>
+    </section>
+
+    <section class="replies">
+      <h2>Respostas locais (demo)</h2>
+      <form id="reply-form">
+        <label class="field">
+          <span>Seu nome</span>
+          <input type="text" id="reply-name" required placeholder="Digite seu nome">
+        </label>
+        <label class="field">
+          <span>Mensagem</span>
+          <textarea id="reply-message" required rows="4" placeholder="Digite sua resposta"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit">Responder (demo)</button>
+          <button type="button" id="clear-replies" class="ghost">Limpar respostas locais deste tópico</button>
+        </div>
+      </form>
+      <div id="local-replies"></div>
+    </section>
+  </main>
+
+  <template id="reply-template">
+    <article class="reply">
+      <header>
+        <span class="pill author"></span>
+        <span class="pill date"></span>
+      </header>
+      <p class="message"></p>
+    </article>
+  </template>
+
+  <script type="module" src="topic.js"></script>
+</body>
+</html>
