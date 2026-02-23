@@ -149,3 +149,41 @@ const postForm = (form, buildPayload, successMessage) => {
             list.innerHTML = "<article class=\"card\"><p>Projetos em breve.</p></article>";
         });
 })();
+
+(() => {
+    const toggle = document.getElementById("confetti-toggle");
+    const overlay = document.getElementById("confetti-overlay");
+    if (!toggle || !overlay) {
+        return;
+    }
+
+    const pieces = overlay.querySelector(".confetti-pieces");
+    const colors = ["#a855f7", "#c084fc", "#f472b6", "#facc15", "#38bdf8", "#f59e0b"];
+
+    const buildConfetti = () => {
+        if (!pieces) {
+            return;
+        }
+        pieces.innerHTML = "";
+        for (let i = 0; i < 28; i += 1) {
+            const piece = document.createElement("span");
+            piece.style.setProperty("--x", `${Math.random() * 100}%`);
+            piece.style.setProperty("--delay", `${Math.random() * 0.6}s`);
+            piece.style.setProperty("--rotate", `${Math.random() * 360}deg`);
+            piece.style.setProperty("--color", colors[i % colors.length]);
+            pieces.appendChild(piece);
+        }
+    };
+
+    toggle.addEventListener("click", () => {
+        toggle.classList.add("minimized");
+        overlay.classList.add("show");
+        overlay.setAttribute("aria-hidden", "false");
+        buildConfetti();
+
+        window.setTimeout(() => {
+            overlay.classList.remove("show");
+            overlay.setAttribute("aria-hidden", "true");
+        }, 2600);
+    });
+})();

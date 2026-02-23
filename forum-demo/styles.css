@@ -73,6 +73,17 @@ h2 {
   max-width: 46ch;
 }
 
+.disclaimer {
+  margin: 0.5rem 0 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  color: #9a3412;
+  max-width: 60ch;
+  font-size: 0.95rem;
+}
+
 .eyebrow {
   letter-spacing: 0.18em;
   text-transform: uppercase;
