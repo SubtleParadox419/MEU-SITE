@@ -19,6 +19,6 @@
   "homepage": "https://github.com/SubtleParadox419/MEU-SITE#readme",
   "devDependencies": {
     "stylelint": "^16.26.1",
-    "stylelint-config-standard": "^39.0.1"
+    "stylelint-config-standard": "^40.0.0"
   }
 }
